@@ -6,8 +6,10 @@ module.exports = function(content) {
   const options = loaderUtils.getOptions(this) || {};
   options.root = options.root || path.dirname(this.resourcePath);
   try {
-    const source = vcl(content, options).toString();
-    this.callback(null, source);
+    const source = vcl(content, options)
+    source.then(
+      result => this.callback(null, result.css)
+    );
   } catch(ex) {
     this.callback(new Error(ex));
   }
